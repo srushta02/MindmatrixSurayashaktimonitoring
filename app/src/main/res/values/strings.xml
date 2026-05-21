@@ -1,0 +1,25 @@
+<resources>
+
+    <string name="app_name">Surya-Shakti</string>
+
+    <string name="title">
+        Surya-Shakti Solar Monitor
+    </string>
+
+    <string name="generation_hint">
+        Enter Solar Generation (kWh)
+    </string>
+
+    <string name="consumption_hint">
+        Enter Electricity Consumption (kWh)
+    </string>
+
+    <string name="calculate">
+        Calculate Energy
+    </string>
+
+    <string name="result">
+        Result
+    </string>
+
+</resources>
