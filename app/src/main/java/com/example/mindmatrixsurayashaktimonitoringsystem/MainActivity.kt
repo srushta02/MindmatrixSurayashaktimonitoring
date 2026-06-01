@@ -15,9 +15,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvResult: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_main)
 
         etGeneration = findViewById(R.id.etGeneration)
@@ -26,22 +24,15 @@ class MainActivity : AppCompatActivity() {
         tvResult = findViewById(R.id.tvResult)
 
         btnCalculate.setOnClickListener {
-
             calculateEnergy()
         }
     }
 
     private fun calculateEnergy() {
+        val generationText = etGeneration.text.toString()
+        val consumptionText = etConsumption.text.toString()
 
-        val generationText =
-            etGeneration.text.toString()
-
-        val consumptionText =
-            etConsumption.text.toString()
-
-        if (generationText.isEmpty() ||
-            consumptionText.isEmpty()) {
-
+        if (generationText.isEmpty() || consumptionText.isEmpty()) {
             Toast.makeText(
                 this,
                 "Please enter all values",
@@ -51,41 +42,35 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        val generation =
-            generationText.toDouble()
+        val generation = generationText.toDoubleOrNull()
+        val consumption = consumptionText.toDoubleOrNull()
 
-        val consumption =
-            consumptionText.toDouble()
+        if (generation == null || consumption == null || consumption == 0.0) {
+            Toast.makeText(
+                this,
+                "Please enter valid values",
+                Toast.LENGTH_SHORT
+            ).show()
 
-        val savings =
-            generation * 8
+            return
+        }
 
-        val greenScore =
-            ((generation / consumption) * 100).toInt()
+        val savings = generation * 8
+        val greenScore = ((generation / consumption) * 100).toInt()
 
-        var status = ""
-
-        if (generation > consumption) {
-
-            status =
-                "Over Generation: Exporting Electricity to Grid"
-
+        val status = if (generation > consumption) {
+            "Over Generation: Exporting Electricity to Grid"
         } else if (generation == consumption) {
-
-            status =
-                "Balanced Energy Usage"
-
+            "Balanced Energy Usage"
         } else {
-
-            status =
-                "Using Grid Electricity"
+            "Using Grid Electricity"
         }
 
         tvResult.text =
             "Solar Generation : $generation kWh\n\n" +
-                    "Consumption : $consumption kWh\n\n" +
-                    "Savings : ₹$savings\n\n" +
-                    "Green Score : $greenScore%\n\n" +
-                    status
+                "Consumption : $consumption kWh\n\n" +
+                "Savings : Rs. $savings\n\n" +
+                "Green Score : $greenScore%\n\n" +
+                status
     }
 }
